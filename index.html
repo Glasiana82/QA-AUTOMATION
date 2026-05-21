@@ -33,6 +33,12 @@
         <input type="text" id="genero" placeholder="Gênero">
         <input type="text" id="diretor" placeholder="Diretor">
         <button id="btn-cadastrar" onclick="cadastrarFilme()">ADICIONAR À LISTA</button>
+    </div>
+
+    <div id="lista-container" style="display: none;">
+        <h3>Filmes Cadastrados</h3>
+        <button id="btn-voltar" onclick="voltarParaCadastro()" style="background-color: #008000; margin-bottom: 20px;">VOLTAR AO CADASTRO</button>
+        <button id="btn-logout" onclick="fazerLogout()" style="background-color: #8b0000;">SAIR</button>
 
         <table>
             <thead>
@@ -41,9 +47,10 @@
                     <th>Ano</th>
                     <th>Gênero</th>
                     <th>Diretor</th>
+                    <th>Ação</th>
                 </tr>
             </thead>
-            <tbody id="tabela-filmes">
+            <tbody id="tabela-filmes-lista">
                 </tbody>
         </table>
     </div>
@@ -99,20 +106,56 @@ async function cadastrarFilme() {
 
         alert(dados.mensagem);
 
-        // limpa os campos
-        document.getElementById('titulo').value = '';
-        document.getElementById('ano').value = '';
-        document.getElementById('genero').value = '';
-        document.getElementById('diretor').value = '';
-
-        // recarregar tabela
-        carregarFilmes(); // 👈 ADICIONE ESTA LINHA
+        // vai para a tela de listagem
+        mostrarTelaLista();
 
     } catch (erro) {
 
         console.error(erro);
 
         alert('Erro ao salvar filme');
+    }
+}
+
+function voltarParaCadastro() {
+    document.getElementById('lista-container').style.display = 'none';
+    document.getElementById('cadastro-container').style.display = 'block';
+}
+
+function mostrarTelaLista() {
+    document.getElementById('cadastro-container').style.display = 'none';
+    document.getElementById('lista-container').style.display = 'block';
+    carregarFilmes();
+}
+
+function fazerLogout() {
+    document.getElementById('login-container').style.display = 'block';
+    document.getElementById('cadastro-container').style.display = 'none';
+    document.getElementById('lista-container').style.display = 'none';
+    document.getElementById('email').value = '';
+    document.getElementById('senha').value = '';
+}
+
+async function deletarFilme(id) {
+    if (!confirm('Tem certeza que deseja deletar este filme?')) {
+        return;
+    }
+
+    try {
+        const resposta = await fetch(`http://localhost:3000/filmes/${id}`, {
+            method: 'DELETE'
+        });
+
+        const dados = await resposta.json();
+
+        alert(dados.mensagem);
+
+        // recarregar tabela
+        carregarFilmes();
+
+    } catch (erro) {
+        console.error(erro);
+        alert('Erro ao deletar filme');
     }
 }
 
@@ -124,17 +167,21 @@ async function carregarFilmes() {
 
         const filmes = await resposta.json();
 
-        const tabela = document.getElementById('tabela-filmes');
+        const tabela = document.getElementById('tabela-filmes-lista');
 
         tabela.innerHTML = '';
 
         filmes.forEach(filme => {
+            const id = filme.id || filme.Id;
             tabela.innerHTML += `
                 <tr>
                     <td>${filme.titulo || filme.Titulo}</td>
                     <td>${filme.ano || filme.Ano}</td>
                     <td>${filme.genero || filme.Genero}</td>
                     <td>${filme.diretor || filme.Diretor}</td>
+                    <td>
+                        <button onclick="deletarFilme(${id})" style="width: 100%; background-color: #dc143c; color: white; padding: 5px;">DELETAR</button>
+                    </td>
                 </tr>
             `;
         });

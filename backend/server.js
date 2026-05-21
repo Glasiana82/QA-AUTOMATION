@@ -89,6 +89,29 @@ app.get('/filmes', async (req, res) => {
     }
 });
 
+app.delete('/filmes/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const pool = await sql.connect(dbConfig);
+
+        await pool.request()
+            .input('id', sql.Int, id)
+            .query('DELETE FROM Filmes WHERE id = @id');
+
+        res.status(200).json({
+            mensagem: 'Filme deletado com sucesso!'
+        });
+
+    } catch (err) {
+        console.error(err);
+
+        res.status(500).json({
+            erro: 'Erro ao deletar filme'
+        });
+    }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`🌍 Servidor rodando na porta ${PORT}`);
