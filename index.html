@@ -33,6 +33,7 @@
         <input type="text" id="genero" placeholder="Gênero">
         <input type="text" id="diretor" placeholder="Diretor">
         <button id="btn-cadastrar" onclick="cadastrarFilme()">ADICIONAR À LISTA</button>
+        <button id="btn-listar" onclick="exibirListaFilmes()" style="background-color: #008000;">LISTAR FILMES</button>
     </div>
 
     <div id="lista-container" style="display: none;">
@@ -123,6 +124,12 @@ function voltarParaCadastro() {
 }
 
 function mostrarTelaLista() {
+    document.getElementById('cadastro-container').style.display = 'none';
+    document.getElementById('lista-container').style.display = 'block';
+    carregarFilmes();
+}
+
+function exibirListaFilmes() {
     document.getElementById('cadastro-container').style.display = 'none';
     document.getElementById('lista-container').style.display = 'block';
     carregarFilmes();
