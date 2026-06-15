@@ -1,0 +1,246 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API Catálogo Sessão da Tarde",
+    "description": "API para gerenciar o catálogo de filmes clássicos da Sessão da Tarde",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Suporte"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Servidor Local"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Verifica se a API está funcionando",
+        "description": "Retorna uma mensagem confirmando que a API está rodando",
+        "tags": ["Status"],
+        "responses": {
+          "200": {
+            "description": "API está operacional",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string",
+                  "example": "API do Catálogo Sessão da Tarde está rodando!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/filmes": {
+      "get": {
+        "summary": "Lista todos os filmes",
+        "description": "Retorna uma lista com todos os filmes cadastrados no banco de dados",
+        "tags": ["Filmes"],
+        "responses": {
+          "200": {
+            "description": "Lista de filmes retornada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "ID único do filme"
+                      },
+                      "titulo": {
+                        "type": "string",
+                        "description": "Título do filme"
+                      },
+                      "ano": {
+                        "type": "integer",
+                        "description": "Ano de lançamento"
+                      },
+                      "genero": {
+                        "type": "string",
+                        "description": "Gênero do filme"
+                      },
+                      "diretor": {
+                        "type": "string",
+                        "description": "Nome do diretor"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "id": 1,
+                      "titulo": "Grande Sertão Veredas",
+                      "ano": 1965,
+                      "genero": "Drama",
+                      "diretor": "Ivo Vicentini"
+                    },
+                    {
+                      "id": 2,
+                      "titulo": "O Pagador de Promessas",
+                      "ano": 1962,
+                      "genero": "Drama",
+                      "diretor": "Anselmo Duarte"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao buscar filmes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "erro": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Cadastra um novo filme",
+        "description": "Adiciona um novo filme ao catálogo",
+        "tags": ["Filmes"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["titulo", "ano", "genero", "diretor"],
+                "properties": {
+                  "titulo": {
+                    "type": "string",
+                    "description": "Título do filme",
+                    "example": "Memórias do Cárcere"
+                  },
+                  "ano": {
+                    "type": "integer",
+                    "description": "Ano de lançamento",
+                    "example": 1984
+                  },
+                  "genero": {
+                    "type": "string",
+                    "description": "Gênero do filme",
+                    "example": "Drama"
+                  },
+                  "diretor": {
+                    "type": "string",
+                    "description": "Nome do diretor",
+                    "example": "Nelson Pereira dos Santos"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Filme cadastrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensagem": {
+                      "type": "string",
+                      "example": "Filme salvo com sucesso!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao salvar filme",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "erro": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/filmes/{id}": {
+      "delete": {
+        "summary": "Deleta um filme",
+        "description": "Remove um filme do catálogo pelo seu ID",
+        "tags": ["Filmes"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do filme a ser deletado",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Filme deletado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensagem": {
+                      "type": "string",
+                      "example": "Filme deletado com sucesso!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao deletar filme",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "erro": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Status",
+      "description": "Endpoints de status da API"
+    },
+    {
+      "name": "Filmes",
+      "description": "Operações relacionadas aos filmes"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Glasi@1982" -p 1433:1433 --name sql_server -d mcr.microsoft.com/mssql/server:2022-latest
+
+
+docker run --name pg-sessao -e POSTGRES_PASSWORD=Glasi@1982 -e POSTGRES_DB=filmes -p 5432:5432 -d postgres
+
+
+npm install express mssql cors
+npm install -D typescript @types/express @types/mssql @types/node @types/cors ts-node
+
+conection string
+
+Automação e Inovação: Conhecimento prático básico no desenvolvimento de scripts de automação utilizando Playwright (JavaScript),
+
+node server.js
+
+npx playwright teste --headed

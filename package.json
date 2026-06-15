@@ -4,13 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node server.ts"
+    "start": "ts-node server.ts",
+    "test:cucumber": "cucumber-js",
+    "test:playwright": "playwright test"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
+    "@cucumber/cucumber": "^13.0.0",
     "@playwright/test": "^1.60.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
@@ -137,6 +140,7 @@
     "sprintf-js": "^1.1.3",
     "statuses": "^2.0.2",
     "string_decoder": "^1.3.0",
+    "swagger-ui-express": "^5.0.1",
     "tarn": "^3.0.2",
     "tedious": "^19.2.1",
     "toidentifier": "^1.0.1",

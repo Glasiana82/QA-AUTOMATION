@@ -1,6 +1,8 @@
 const express = require('express');
 const sql = require('mssql'); // Mudamos de mssql para sql para bater com a linha 14
 const cors = require('cors');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('../swagger.json');
 require('dotenv').config();
 console.log(process.env);
 
@@ -31,6 +33,9 @@ sql.connect(dbConfig)
     .catch(err => {
         console.error('❌ Erro ao conectar no banco de dados:', err.message);
     });
+
+// Swagger UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Rota de teste para ver se a API está viva
 app.get('/', (req, res) => {

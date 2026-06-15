@@ -1,0 +1,149 @@
+[
+  {
+    "description": "  Como um usuário autenticado\n  Quero cadastrar um novo filme no sistema\n  Para manter meu catálogo de filmes atualizado",
+    "elements": [
+      {
+        "description": "",
+        "id": "cadastro-de-filmes;fazer-login-e-cadastrar-um-filme-com-sucesso",
+        "keyword": "Cenário",
+        "line": 8,
+        "name": "Fazer login e cadastrar um filme com sucesso",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 989047000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Quando ",
+            "line": 9,
+            "name": "faço login com email \"admin@sessao.com\" e senha \"1234\"",
+            "match": {
+              "location": "features\\step_definitions\\filme.steps.ts:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 6448455799
+            }
+          },
+          {
+            "arguments": [
+              {
+                "rows": [
+                  {
+                    "cells": [
+                      "campo",
+                      "valor"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "título",
+                      "A Busca pela Vida"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "ano",
+                      "1986"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "gênero",
+                      "Romance"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "diretor",
+                      "John Hughes"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "keyword": "E ",
+            "line": 10,
+            "name": "cadastro um filme com:",
+            "match": {
+              "location": "features\\step_definitions\\filme.steps.ts:41"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3306941000
+            }
+          },
+          {
+            "arguments": [
+              {
+                "rows": [
+                  {
+                    "cells": [
+                      "campo",
+                      "valor"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "título",
+                      "A Busca pela Vida"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "ano",
+                      "1986"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "gênero",
+                      "Romance"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "diretor",
+                      "John Hughes"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "keyword": "Então ",
+            "line": 16,
+            "name": "o filme deve aparecer na lista com:",
+            "match": {
+              "location": "features\\step_definitions\\filme.steps.ts:73"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3020086900
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 488165399
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "cadastro-de-filmes",
+    "line": 2,
+    "keyword": "Funcionalidade",
+    "name": "Cadastro de Filmes",
+    "tags": [],
+    "uri": "features\\cadastrar-filme.feature"
+  }
+]
