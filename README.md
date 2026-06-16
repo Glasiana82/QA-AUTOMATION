@@ -1,59 +1,149 @@
 # 🎬 Catálogo Sessão da Tarde - Automação de Testes E2E
 
-Este repositório contém a suíte de automação de testes End-to-End (E2E) desenvolvida para o sistema **Catálogo Sessão da Tarde**. O projeto foca em garantir a qualidade e a integridade do fluxo de gerenciamento de filmes clássicos, abrangendo desde a autenticação até operações de CRUD.
+Este repositório contém uma aplicação de catálogo de filmes com uma suíte de testes automatizados End-to-End (E2E).
+O projeto foi desenvolvido com foco em práticas de QA, validando fluxos de negócio completos da aplicação, desde o cadastro de filmes até o processo de aluguel.
+A automação foi construída inicialmente utilizando Playwright e posteriormente evoluída para uma abordagem BDD (Behavior Driven Development) utilizando Gherkin + Cucumber, aproximando os cenários automatizados da linguagem de negócio.
+
 
 ## 🚀 Sobre o Projeto
 
 O objetivo deste projeto é aplicar as melhores práticas de Engenharia de QA em uma aplicação moderna. Como **especialista em QA**, este trabalho reflete minha transição e expansão de habilidades para a **automação moderna**, utilizando ferramentas de ponta e explorando o potencial da **IA (Inteligência Artificial)** para otimizar a escrita de scripts, geração de massa de dados e análise de cobertura.
+Este projeto envolve:
+- Interface web
+- API backend
+- Banco de dados
+- Testes automatizados E2E
+- Cenários orientados a comportamento (BDD)
 
 ## 🛠️ Tecnologias Utilizadas
 
-- **Linguagem:** [TypeScript](https://www.typescriptlang.org/)
-- **Framework de Testes:** [Playwright](https://playwright.dev/)
-- **Backend:** Node.js com Express
-- **Banco de Dados:** SQL Server (Executado via Docker)
-- **CI/CD:** GitHub Actions
+### Aplicação
+- HTML / CSS / JavaScript
+- Node.js
+- Express
+- SQL Server
+- Docker
 
-## 📋 Cenários de Teste Implementados
+### Automação de Testes
 
-A suíte de testes valida os seguintes requisitos de negócio:
-1.  **Autenticação:** Login seguro no portal administrativo.
-2.  **Cadastro de Filmes:** Inclusão de novos títulos (Título, Ano, Gênero, Diretor).
-3.  **Validação de Listagem:** Garantia de que os dados persistidos no banco de dados são exibidos corretamente na UI.
-4.  **Exclusão de Registros:** Remoção de filmes com limpeza de estado.
+- Playwright (Testes E2E)
+- Cucumber
+- Gherkin (BDD)
 
-## 🔧 Configuração e Execução
+### Outros
 
-### Pré-requisitos
-*   Node.js (LTS)
-*   Docker (para o banco de dados SQL Server)
-*   Extensão do Playwright (opcional, para VS Code)
+- GitHub Actions (CI/CD)
+- Git
+- npm
 
-### Instalação
 
-```bash
-# Instalar dependências
-npm install
+# 📋 Funcionalidades Testadas
 
-# Instalar navegadores do Playwright
-npx playwright install
-```
+A suíte automatizada valida os principais fluxos da aplicação:
 
-### Executando os Testes
+## Cadastro de Filmes
 
-```bash
-# Executar todos os testes em modo headless
-npx playwright test
+Validação da criação de novos filmes:
 
-# Executar testes com interface visual (UI Mode)
-npx playwright test --ui
-```
+- Título
+- Ano
+- Gênero
+- Diretor
 
-## 📈 Continuous Integration
+## Listagem de Filmes
 
-O projeto está integrado ao **GitHub Actions**, executando a suíte de testes automaticamente a cada `push` ou `pull_request` nos branches principais. O pipeline garante que as novas funcionalidades não quebrem o comportamento existente.
+Validação de:
+
+- Exibição dos filmes cadastrados
+- Persistência dos dados no banco
+- Status atual do filme
+
+## Exclusão de Filmes
+
+Validação da remoção de registros.
+
+## Aluguel de Filmes
+
+Validação do fluxo:
+
+- Seleção do filme disponível
+- Confirmação do aluguel
+- Atualização do status para "Alugado"
+- Persistência da alteração
 
 ---
+
+# 🧪 Estratégia de Automação
+
+O projeto possui dois tipos de automação:
+
+## 1. Playwright E2E
+
+Primeira implementação de automação utilizando Playwright.
+
+Objetivo:
+
+- Validar o fluxo completo da aplicação
+- Interagir com a interface
+- Garantir funcionamento ponta a ponta
+
+Execução:
+
+```bash
+npx playwright test
+
+## 2. BDD com Cucumber + Gherkin
+Evolução da automação utilizando cenários escritos em linguagem próxima ao negócio.
+
+Funcionalidade: Aluguel de filmes
+
+Cenário: Alugar um filme disponível
+
+Dado que existe um filme liberado para aluguel
+Quando o usuário confirma o aluguel
+Então o status do filme deve ser alterado para alugado
+
+Execução:
+npm run test:cucumber
+
+🔧 Configuração e Execução
+Pré-requisitos
+Node.js (LTS)
+Docker
+SQL Server
+Git
+Instalação
+
+Instalar dependências:
+
+npm install
+
+Instalar navegadores Playwright:
+
+npx playwright install
+
+Executando a aplicação
+
+Subir o banco:
+
+Docker Desktop
+
+Iniciar backend:
+
+npm run dev
+
+Iniciar frontend:
+
+http-server -p 5500
+
+
+📈 Continuous Integration
+
+O projeto possui integração com GitHub Actions para execução automática dos testes em cada alteração do código.
+
+O pipeline ajuda a garantir que novas funcionalidades não quebrem comportamentos existentes.
+
+
 
 ## 🧑‍💻 Sobre Mim
 
