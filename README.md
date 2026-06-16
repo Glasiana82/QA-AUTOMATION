@@ -89,10 +89,12 @@ Objetivo:
 
 Execução:
 
-```bash
+
 npx playwright test
 
 ## 2. BDD com Cucumber + Gherkin
+
+
 Evolução da automação utilizando cenários escritos em linguagem próxima ao negócio.
 
 Funcionalidade: Aluguel de filmes
