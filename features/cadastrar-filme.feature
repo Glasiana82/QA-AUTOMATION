@@ -7,6 +7,7 @@ Funcionalidade: Cadastro de Filmes
 
   Cenário: Fazer login e cadastrar um filme com sucesso
     Quando faço login com email "admin@sessao.com" e senha "1234"
+    E vou para a tela de cadastro de filmes
     E cadastro um filme com:
       | campo   | valor        |
       | título  | A Busca pela Vida      |
@@ -19,4 +20,4 @@ Funcionalidade: Cadastro de Filmes
       | ano     | 1986         |
       | gênero  | Romance      |
       | diretor | John Hughes  |
-    # Removido passo de deletar para teste simplificado
+    E saio da aplicação

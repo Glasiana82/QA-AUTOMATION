@@ -11,6 +11,140 @@
         button { background-color: #000080; color: #fff; font-weight: bold; cursor: pointer; border: 2px outset #fff; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #fff; }
         th, td { border: 1px solid #000; padding: 8px; text-align: left; }
+
+        /* Animação do Projetor de Cinema */
+        .projetor-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border: 3px solid #000;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .projetor {
+            position: relative;
+            width: 200px;
+            height: 150px;
+        }
+
+        /* Corpo do projetor */
+        .projetor-corpo {
+            width: 180px;
+            height: 100px;
+            background: linear-gradient(90deg, #333, #555, #333);
+            border: 2px solid #222;
+            border-radius: 10px;
+            margin: 0 auto;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.8), inset -2px -2px 5px rgba(0,0,0,0.5);
+        }
+
+        /* Lente 1 (frontal) */
+        .lente-1 {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border: 3px solid #444;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3), rgba(0,0,0,0.8));
+            top: 35px;
+            left: 20px;
+            animation: girarLente 2s linear infinite;
+            box-shadow: inset -2px -2px 5px rgba(0,0,0,0.8), 0 0 10px rgba(255,255,200,0.3);
+        }
+
+        /* Lente 2 (traseira) */
+        .lente-2 {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border: 2px solid #555;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2), rgba(0,0,0,0.9));
+            top: 45px;
+            right: 30px;
+            animation: girarLente 3s linear infinite reverse;
+            box-shadow: inset -1px -1px 3px rgba(0,0,0,0.8);
+        }
+
+        /* Luz do projetor */
+        .luz-projetor {
+            position: absolute;
+            width: 150px;
+            height: 200px;
+            background: radial-gradient(ellipse at center, rgba(255,255,150,0.6) 0%, rgba(255,200,0,0.3) 40%, transparent 70%);
+            top: -50px;
+            left: 25px;
+            animation: piscarLuz 0.5s ease-in-out infinite;
+            filter: blur(20px);
+        }
+
+        /* Filme passando */
+        .filme-strip {
+            position: absolute;
+            width: 250px;
+            height: 40px;
+            bottom: 10px;
+            left: -50px;
+            background: repeating-linear-gradient(90deg, #222 0px, #222 30px, #444 30px, #444 35px);
+            animation: rolarFilme 2s linear infinite;
+            opacity: 0.7;
+        }
+
+        .filme-strip::before,
+        .filme-strip::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 100%;
+            background: #111;
+            top: 0;
+        }
+
+        .filme-strip::before {
+            left: 5px;
+        }
+
+        .filme-strip::after {
+            right: 5px;
+        }
+
+        /* Animações */
+        @keyframes girarLente {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes piscarLuz {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0.3; }
+        }
+
+        @keyframes rolarFilme {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(250px); }
+        }
+
+        /* Texto de boas-vindas */
+        .sessao-titulo {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 16px;
+            font-weight: bold;
+            color: #FFD700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            animation: piscarTexto 1s ease-in-out infinite;
+        }
+
+        @keyframes piscarTexto {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0.6; }
+        }
     </style>
 </head>
 <body>
@@ -26,13 +160,34 @@
         <p id="erro-login" style="color: red; display: none;">E-mail ou senha incorretos!</p>
     </div>
 
-    <div id="cadastro-container" style="display: none;">
+    <!-- TELA INICIAL: Projetor Animado + 2 botões -->
+    <div id="tela-inicial-container" style="display: none;">
+        <h3>Sessão da Tarde - Clássicos Globo</h3>
+        
+        <!-- Projetor de Cinema Animado -->
+        <div class="projetor-container">
+            <div class="sessao-titulo">▶ SESSÃO DA TARDE ▶</div>
+            <div class="luz-projetor"></div>
+            <div class="projetor">
+                <div class="projetor-corpo"></div>
+                <div class="lente-1"></div>
+                <div class="lente-2"></div>
+            </div>
+            <div class="filme-strip"></div>
+        </div>
+
+        <button id="btn-cadastrar-novo" onclick="irParaCadastro()" style="margin-top: 20px;">CADASTRAR FILME</button>
+        <button id="btn-listar-filmes" onclick="exibirListaFilmes()" style="background-color: #008000;">LISTAR FILMES</button>
+    </div>
+
+    <!-- TELA DE CADASTRO: 4 campos + 2 botões -->
+    <div id="tela-cadastro-container" style="display: none;">
         <h3>Cadastrar Novo Filme</h3>
         <input type="text" id="titulo" placeholder="Título do Filme">
         <input type="number" id="ano" placeholder="Ano de Lançamento">
         <input type="text" id="genero" placeholder="Gênero">
         <input type="text" id="diretor" placeholder="Diretor">
-        <button id="btn-cadastrar" onclick="cadastrarFilme()">ADICIONAR À LISTA</button>
+        <button id="btn-cadastrar" onclick="cadastrarFilme()">CADASTRAR FILME</button>
         <button id="btn-listar" onclick="exibirListaFilmes()" style="background-color: #008000;">LISTAR FILMES</button>
     </div>
 
@@ -66,11 +221,15 @@
         // Regra de Negócio: Login específico
         if (email === 'admin@sessao.com' && senha === '1234') {
             document.getElementById('login-container').style.display = 'none';
-            document.getElementById('cadastro-container').style.display = 'block';
-            carregarFilmes();
+            document.getElementById('tela-inicial-container').style.display = 'block';
         } else {
             erro.style.display = 'block';
         }
+    }
+
+    function irParaCadastro() {
+        document.getElementById('tela-inicial-container').style.display = 'none';
+        document.getElementById('tela-cadastro-container').style.display = 'block';
     }
 
 async function cadastrarFilme() {
@@ -120,24 +279,26 @@ async function cadastrarFilme() {
 
 function voltarParaCadastro() {
     document.getElementById('lista-container').style.display = 'none';
-    document.getElementById('cadastro-container').style.display = 'block';
+    document.getElementById('tela-inicial-container').style.display = 'block';
 }
 
 function mostrarTelaLista() {
-    document.getElementById('cadastro-container').style.display = 'none';
+    document.getElementById('tela-cadastro-container').style.display = 'none';
     document.getElementById('lista-container').style.display = 'block';
     carregarFilmes();
 }
 
 function exibirListaFilmes() {
-    document.getElementById('cadastro-container').style.display = 'none';
+    document.getElementById('tela-inicial-container').style.display = 'none';
+    document.getElementById('tela-cadastro-container').style.display = 'none';
     document.getElementById('lista-container').style.display = 'block';
     carregarFilmes();
 }
 
 function fazerLogout() {
     document.getElementById('login-container').style.display = 'block';
-    document.getElementById('cadastro-container').style.display = 'none';
+    document.getElementById('tela-inicial-container').style.display = 'none';
+    document.getElementById('tela-cadastro-container').style.display = 'none';
     document.getElementById('lista-container').style.display = 'none';
     document.getElementById('email').value = '';
     document.getElementById('senha').value = '';
@@ -181,7 +342,7 @@ async function carregarFilmes() {
         filmes.forEach(filme => {
             const id = filme.id || filme.Id;
             tabela.innerHTML += `
-                <tr>
+                <tr id="filme-${id}">
                     <td>${filme.titulo || filme.Titulo}</td>
                     <td>${filme.ano || filme.Ano}</td>
                     <td>${filme.genero || filme.Genero}</td>

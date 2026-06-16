@@ -15,7 +15,8 @@ Given('que estou logado como administrador', async function() {
   await page.locator('#btn-login').click();
   await page.waitForTimeout(2000);
 
-  await expect(page.locator('#btn-cadastrar')).toBeVisible();
+  // Agora deve estar na tela inicial com o projetor
+  await expect(page.locator('#btn-cadastrar-novo')).toBeVisible();
 });
 
 When('faço login com email {string} e senha {string}', async function(email: string, senha: string) {
@@ -36,6 +37,20 @@ When('faço login com email {string} e senha {string}', async function(email: st
   await page.waitForTimeout(500);
   await page.getByRole('button', { name: 'ENTRAR' }).click();
   await page.waitForTimeout(2000);
+
+  // Verificar que está na tela inicial (com botão "CADASTRAR FILME")
+  await expect(page.locator('#btn-cadastrar-novo')).toBeVisible();
+});
+
+When('vou para a tela de cadastro de filmes', async function() {
+  const page = this.page;
+  
+  // Clicar no botão "CADASTRAR FILME" na tela inicial
+  await page.locator('#btn-cadastrar-novo').click();
+  await page.waitForTimeout(1000);
+
+  // Verificar que está na tela de cadastro
+  await expect(page.locator('#btn-cadastrar')).toBeVisible();
 });
 
 When('cadastro um filme com:', async function(dataTable: DataTable) {
@@ -66,6 +81,12 @@ When('cadastro um filme com:', async function(dataTable: DataTable) {
 
   await page.locator('#btn-cadastrar').click();
   await page.waitForTimeout(1000);
+  
+  // Após cadastro, o sistema redireciona automaticamente para a lista de filmes
+  // Esperar que a tabela de filmes fique visível (confirma que o cadastro foi realizado)
+  await page.locator('tbody#tabela-filmes-lista').waitFor({ state: 'visible', timeout: 10000 });
+  await page.waitForTimeout(1000);
+  
   // armazenar o identificador do filme para uso posterior (deletar)
   (this as any).lastMovie = `${dados['título']} ${dados['ano']} ${dados['gênero']} ${dados['diretor']}`;
 });
@@ -76,10 +97,37 @@ Then('o filme deve aparecer na lista com:', async function(dataTable: DataTable)
   
   const rowName = `${dados['título']} ${dados['ano']} ${dados['gênero']} ${dados['diretor']}`;
   
+  // DEBUG: Verificar quantas linhas existem na tabela
+  const allRows = await page.locator('tbody#tabela-filmes-lista tr').count();
+  console.log(`[DEBUG] Encontradas ${allRows} linhas na tabela`);
+  console.log(`[DEBUG] Procurando por: "${rowName}"`);
+  
+  // DEBUG: Screenshot para visualizar o estado da página
+  await page.screenshot({ path: 'debug-filme-lista.png' });
+  console.log(`[DEBUG] Screenshot salvo em: debug-filme-lista.png`);
+  
   const rowLocator = page.locator('tbody#tabela-filmes-lista tr', { hasText: rowName }).first();
-  await expect(rowLocator).toBeVisible();
+  await expect(rowLocator).toBeVisible({ timeout: 10000 });
+
+  // ===== EXTRAIR O ID DO FILME PELA LINHA ENCONTRADA =====
+  const filmeId = await rowLocator.first().evaluate((element: any) => element.id);
+  console.log(`📍 ID do filme encontrado: ${filmeId}`);
+  
+  // Armazenar o ID para uso posterior
+  (this as any).filmeId = filmeId;
 
   await page.waitForTimeout(3000);
+});
+
+When('vou para a lista de filmes', async function() {
+  const page = this.page;
+  
+  // Clicar no botão "LISTAR FILMES" na tela de cadastro
+  await page.locator('#btn-listar').click();
+  await page.waitForTimeout(2000);
+
+  // Verificar que está na tela de lista
+  await expect(page.locator('#btn-voltar')).toBeVisible();
 });
 
 Then('posso deletar o filme da lista', async function() {
@@ -94,7 +142,35 @@ Then('posso deletar o filme da lista', async function() {
   const row = page.locator('tbody#tabela-filmes-lista tr', { hasText: rowName }).first();
   await expect(row).toBeVisible();
 
-  // clicar no botão DELETAR dentro da linha específica
-  await row.locator('button', { hasText: 'DELETAR' }).click();
+  // Scrollar para a linha do filme
+  await row.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(500);
+
+  // Esperar que o botão DELETAR fique visível e clicável
+  const deleteButton = row.locator('button', { hasText: 'DELETAR' });
+  await deleteButton.waitFor({ state: 'visible', timeout: 10000 });
+  await page.waitForTimeout(300);
+
+  // Clicar no botão DELETAR
+  await deleteButton.click();
   await page.waitForTimeout(1000);
+
+  // Verificar que o filme foi deletado (não aparece mais na lista)
+  const rowAfterDelete = page.locator('tbody#tabela-filmes-lista tr', { hasText: rowName }).first();
+  await expect(rowAfterDelete).not.toBeVisible({ timeout: 5000 });
+  
+  console.log(`[SUCCESS] Filme "${rowName}" foi deletado com sucesso!`);
+});
+
+Then('saio da aplicação', async function(this: any) {
+  const page = this.page;
+  
+  // Clicar no botão SAIR
+  await page.locator('#btn-logout').click();
+  await page.waitForTimeout(2000);
+  
+  // Verificar que voltou para a tela de login
+  await expect(page.locator('#login-container')).toBeVisible();
+  
+  console.log(`✅ Saída realizada com sucesso!`);
 });

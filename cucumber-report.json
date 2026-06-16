@@ -14,7 +14,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 989047000
+              "duration": 899380999
             }
           },
           {
@@ -23,11 +23,24 @@
             "line": 9,
             "name": "faço login com email \"admin@sessao.com\" e senha \"1234\"",
             "match": {
-              "location": "features\\step_definitions\\filme.steps.ts:21"
+              "location": "features\\step_definitions\\filme.steps.ts:22"
             },
             "result": {
               "status": "passed",
-              "duration": 6448455799
+              "duration": 6398295299
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "E ",
+            "line": 10,
+            "name": "vou para a tela de cadastro de filmes",
+            "match": {
+              "location": "features\\step_definitions\\filme.steps.ts:45"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1061051600
             }
           },
           {
@@ -68,14 +81,14 @@
               }
             ],
             "keyword": "E ",
-            "line": 10,
+            "line": 11,
             "name": "cadastro um filme com:",
             "match": {
-              "location": "features\\step_definitions\\filme.steps.ts:41"
+              "location": "features\\step_definitions\\filme.steps.ts:56"
             },
             "result": {
               "status": "passed",
-              "duration": 3306941000
+              "duration": 4333671599
             }
           },
           {
@@ -116,14 +129,27 @@
               }
             ],
             "keyword": "Então ",
-            "line": 16,
+            "line": 17,
             "name": "o filme deve aparecer na lista com:",
             "match": {
-              "location": "features\\step_definitions\\filme.steps.ts:73"
+              "location": "features\\step_definitions\\filme.steps.ts:94"
             },
             "result": {
               "status": "passed",
-              "duration": 3020086900
+              "duration": 3086717800
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "E ",
+            "line": 23,
+            "name": "saio da aplicação",
+            "match": {
+              "location": "features\\step_definitions\\filme.steps.ts:165"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2055915099
             }
           },
           {
@@ -131,7 +157,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 488165399
+              "duration": 426698400
             }
           }
         ],
