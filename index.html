@@ -329,37 +329,38 @@ async function deletarFilme(id) {
 }
 
 async function alugarFilme(id) {
+    // Regra: Ao clicar no botão "Alugar", exibe mensagem de confirmação
+    if (!confirm('Deseja alugar esse Filme?')) {
+        // Regra: Se a opção NÃO for escolhida, volta pra tela da listagem (não faz nada)
+        return;
+    }
+
     try {
-        // Buscar status atual do filme
-        const resposta1 = await fetch('http://localhost:3000/filmes');
-        const filmes = await resposta1.json();
-        const filme = filmes.find(f => (f.id || f.Id) == id);
-        
-        if (!filme) {
-            alert('Filme não encontrado!');
-            return;
-        }
-        
-        const statusAtual = filme.status || filme.Status || 'Liberado';
-        const novoStatus = statusAtual === 'Liberado' ? 'Alugado' : 'Liberado';
-        
+        // Regra: Se SIM, o Status do Filme passará para Alugado no Banco de Dados
         const resposta = await fetch(`http://localhost:3000/filmes/${id}/status`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ status: novoStatus })
+            body: JSON.stringify({ status: 'Alugado' })
         });
         
         const dados = await resposta.json();
-        alert(dados.mensagem);
+
+        // Verifica se a resposta foi bem-sucedida (status HTTP 2xx)
+        if (resposta.ok) {
+            alert(dados.mensagem); // Exibe a mensagem de sucesso do backend ("Filme alugado com sucesso!")
+        } else {
+            // Se a resposta não foi OK, exibe a mensagem de erro do backend (se houver)
+            alert(dados.erro || 'Erro desconhecido ao atualizar status.');
+        }
         
         // Recarregar tabela
         carregarFilmes();
         
     } catch (erro) {
-        console.error(erro);
-        alert('Erro ao atualizar status do filme');
+        console.error("Erro na comunicação com o servidor:", erro);
+        alert('Erro ao atualizar status do filme. Verifique a conexão ou o servidor.');
     }
 }
 
@@ -378,9 +379,13 @@ async function carregarFilmes() {
         filmes.forEach(filme => {
             const id = filme.id || filme.Id;
             const status = filme.status || filme.Status || 'Liberado';
-            const statusBadgeColor = status === 'Alugado' ? '#ff6b6b' : '#51cf66';
-            const botaoTexto = status === 'Alugado' ? 'LIBERAR' : 'ALUGAR';
-            const botaoCor = status === 'Alugado' ? '#ffa500' : '#4c6ef5';
+            
+            // Regras de Aluguel para o botão e visualização
+            const estaAlugado = status === 'Alugado';
+            const statusBadgeColor = estaAlugado ? '#ff6b6b' : '#51cf66';
+            const botaoTexto = estaAlugado ? 'ALUGADO' : 'ALUGAR';
+            const botaoCor = estaAlugado ? '#dc143c' : '#4c6ef5'; // Vermelho se alugado, Azul se liberado
+            const atributoDisabled = estaAlugado ? 'disabled' : '';
             
             tabela.innerHTML += `
                 <tr id="filme-${id}">
@@ -392,7 +397,7 @@ async function carregarFilmes() {
                         <span style="background-color: ${statusBadgeColor}; color: white; padding: 5px 10px; border-radius: 4px; font-weight: bold;">${status}</span>
                     </td>
                     <td style="display: flex; gap: 5px;">
-                        <button onclick="alugarFilme(${id})" style="flex: 1; background-color: ${botaoCor}; color: white; padding: 5px; border: none; border-radius: 4px; cursor: pointer;">${botaoTexto}</button>
+                        <button onclick="alugarFilme(${id})" ${atributoDisabled} style="flex: 1; background-color: ${botaoCor}; color: white; padding: 5px; border: none; border-radius: 4px; cursor: ${estaAlugado ? 'not-allowed' : 'pointer'};">${botaoTexto}</button>
                         <button onclick="deletarFilme(${id})" style="flex: 1; background-color: #dc143c; color: white; padding: 5px; border: none; border-radius: 4px; cursor: pointer;">DELETAR</button>
                     </td>
                 </tr>
@@ -401,9 +406,9 @@ async function carregarFilmes() {
 
     } catch (erro) {
 
-        console.error(erro);
+        console.error("ERRO COMPLETO:", erro);
 
-        alert('Erro ao carregar filmes');
+        alert(erro.message);
     }
 }
 

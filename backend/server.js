@@ -4,7 +4,7 @@ const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('../swagger.json');
 require('dotenv').config();
-console.log(process.env);
+console.log("API iniciada");
 
 const app = express();
 app.use(express.json());
@@ -54,6 +54,7 @@ app.post('/filmes', async (req, res) => {
             .input('ano', sql.Int, ano)
             .input('genero', sql.VarChar, genero)
             .input('diretor', sql.VarChar, diretor)
+            .input('status', sql.VarChar, 'Liberado')
             .query(`
                 INSERT INTO Filmes (titulo, ano, genero, diretor)
                 VALUES (@titulo, @ano, @genero, @diretor)
@@ -118,6 +119,12 @@ app.delete('/filmes/:id', async (req, res) => {
 });
 
 app.put('/filmes/:id/status', async (req, res) => {
+
+    console.log("ENTROU NA ROTA DE ALUGAR");
+    console.log("ID:", req.params.id);
+    console.log("BODY:", req.body);
+
+
     try {
         const { id } = req.params;
         const { status } = req.body;

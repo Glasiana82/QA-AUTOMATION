@@ -57,7 +57,7 @@ O projeto está integrado ao **GitHub Actions**, executando a suíte de testes a
 
 ## 🧑‍💻 Sobre Mim
 
-Sou um especialista em QA dedicado a elevar o padrão de qualidade de software através da automação inteligente. Atualmente, foco em unir a experiência em testes manuais e estratégicos com tecnologias emergentes de automação e IA para entregar ciclos de feedback mais rápidos e precisos.
+Sou uma especialista em QA dedicada a elevar o padrão de qualidade de software através da automação inteligente. Atualmente, foco em unir a experiência em testes manuais e estratégicos com tecnologias emergentes de automação e IA para entregar ciclos de feedback mais rápidos e precisos.
 
 ---
 *Desenvolvido para fins de estudo e aprimoramento profissional.*
