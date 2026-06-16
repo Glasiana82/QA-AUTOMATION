@@ -89,55 +89,63 @@ Objetivo:
 
 Execução:
 
-
+```bash
 npx playwright test
+```
 
 ## 2. BDD com Cucumber + Gherkin
 
-
 Evolução da automação utilizando cenários escritos em linguagem próxima ao negócio.
 
+```gherkin
 Funcionalidade: Aluguel de filmes
-
-Cenário: Alugar um filme disponível
-
-Dado que existe um filme liberado para aluguel
-Quando o usuário confirma o aluguel
-Então o status do filme deve ser alterado para alugado
+  Cenário: Alugar um filme disponível
+    Dado que existe um filme liberado para aluguel
+    Quando o usuário confirma o aluguel
+    Então o status do filme deve ser alterado para alugado
+```
 
 Execução:
+```bash
 npm run test:cucumber
+```
 
-🔧 Configuração e Execução
-Pré-requisitos
-Node.js (LTS)
-Docker
-SQL Server
-Git
-Instalação
+## 🔧 Configuração e Execução
 
-Instalar dependências:
+### Pré-requisitos
+- Node.js (LTS)
+- Docker
+- SQL Server
+- Git
 
+### Instalação
+
+1. Instalar dependências:
+
+```bash
 npm install
+```
 
-Instalar navegadores Playwright:
+2. Instalar navegadores Playwright:
 
+```bash
 npx playwright install
+```
 
-Executando a aplicação
+### Executando a aplicação
 
-Subir o banco:
+1. **Subir o banco:** Docker Desktop
+2. **Iniciar backend:**
 
-Docker Desktop
-
-Iniciar backend:
-
+```bash
 npm run dev
+```
 
-Iniciar frontend:
+3. **Iniciar frontend:**
 
+```bash
 http-server -p 5500
-
+```
 
 📈 Continuous Integration
 
