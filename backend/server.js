@@ -117,6 +117,38 @@ app.delete('/filmes/:id', async (req, res) => {
     }
 });
 
+app.put('/filmes/:id/status', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+
+        // Validar status
+        if (!['Liberado', 'Alugado'].includes(status)) {
+            return res.status(400).json({
+                erro: 'Status inválido. Use "Liberado" ou "Alugado"'
+            });
+        }
+
+        const pool = await sql.connect(dbConfig);
+
+        await pool.request()
+            .input('id', sql.Int, id)
+            .input('status', sql.VarChar, status)
+            .query('UPDATE Filmes SET status = @status WHERE id = @id');
+
+        res.status(200).json({
+            mensagem: `Filme ${status === 'Alugado' ? 'alugado' : 'liberado'} com sucesso!`
+        });
+
+    } catch (err) {
+        console.error(err);
+
+        res.status(500).json({
+            erro: 'Erro ao atualizar status do filme'
+        });
+    }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`🌍 Servidor rodando na porta ${PORT}`);

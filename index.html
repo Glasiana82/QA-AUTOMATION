@@ -203,7 +203,8 @@
                     <th>Ano</th>
                     <th>Gênero</th>
                     <th>Diretor</th>
-                    <th>Ação</th>
+                    <th>Status</th>
+                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody id="tabela-filmes-lista">
@@ -327,6 +328,41 @@ async function deletarFilme(id) {
     }
 }
 
+async function alugarFilme(id) {
+    try {
+        // Buscar status atual do filme
+        const resposta1 = await fetch('http://localhost:3000/filmes');
+        const filmes = await resposta1.json();
+        const filme = filmes.find(f => (f.id || f.Id) == id);
+        
+        if (!filme) {
+            alert('Filme não encontrado!');
+            return;
+        }
+        
+        const statusAtual = filme.status || filme.Status || 'Liberado';
+        const novoStatus = statusAtual === 'Liberado' ? 'Alugado' : 'Liberado';
+        
+        const resposta = await fetch(`http://localhost:3000/filmes/${id}/status`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ status: novoStatus })
+        });
+        
+        const dados = await resposta.json();
+        alert(dados.mensagem);
+        
+        // Recarregar tabela
+        carregarFilmes();
+        
+    } catch (erro) {
+        console.error(erro);
+        alert('Erro ao atualizar status do filme');
+    }
+}
+
 async function carregarFilmes() {
 
     try {
@@ -341,6 +377,11 @@ async function carregarFilmes() {
 
         filmes.forEach(filme => {
             const id = filme.id || filme.Id;
+            const status = filme.status || filme.Status || 'Liberado';
+            const statusBadgeColor = status === 'Alugado' ? '#ff6b6b' : '#51cf66';
+            const botaoTexto = status === 'Alugado' ? 'LIBERAR' : 'ALUGAR';
+            const botaoCor = status === 'Alugado' ? '#ffa500' : '#4c6ef5';
+            
             tabela.innerHTML += `
                 <tr id="filme-${id}">
                     <td>${filme.titulo || filme.Titulo}</td>
@@ -348,7 +389,11 @@ async function carregarFilmes() {
                     <td>${filme.genero || filme.Genero}</td>
                     <td>${filme.diretor || filme.Diretor}</td>
                     <td>
-                        <button onclick="deletarFilme(${id})" style="width: 100%; background-color: #dc143c; color: white; padding: 5px;">DELETAR</button>
+                        <span style="background-color: ${statusBadgeColor}; color: white; padding: 5px 10px; border-radius: 4px; font-weight: bold;">${status}</span>
+                    </td>
+                    <td style="display: flex; gap: 5px;">
+                        <button onclick="alugarFilme(${id})" style="flex: 1; background-color: ${botaoCor}; color: white; padding: 5px; border: none; border-radius: 4px; cursor: pointer;">${botaoTexto}</button>
+                        <button onclick="deletarFilme(${id})" style="flex: 1; background-color: #dc143c; color: white; padding: 5px; border: none; border-radius: 4px; cursor: pointer;">DELETAR</button>
                     </td>
                 </tr>
             `;
