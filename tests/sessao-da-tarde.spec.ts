@@ -59,7 +59,7 @@ test('deve fazer login e cadastrar um filme com sucesso', async ({ page }) => {
     // Não precisa clicar "LISTAR FILMES" - já está na lista!
 
     // ===== VERIFICAR QUE O FILME APARECEU NA LISTA =====
-    const filmeRow = page.getByRole('row', { name: `${filmeTitle} ${filmeAno} ${filmeGenero} ${filmeDiretor}` });
+    const filmeRow = page.getByRole('row', { name: `${filmeTitle} ${filmeAno} ${filmeGenero} ${filmeDiretor} Liberado ` });
     await expect(filmeRow).toBeVisible();
     
     console.log(`✅ Filme "${filmeTitle}" apareceu na lista!`);
