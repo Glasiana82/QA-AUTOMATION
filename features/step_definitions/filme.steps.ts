@@ -74,6 +74,10 @@ When('cadastro um filme com:', async function(dataTable: DataTable) {
   await page.locator('#diretor').fill(dados['diretor']);
   await page.waitForTimeout(500);
 
+  //await page.locator('#status').click();
+  //await page.locator('#status').fill(dados['status']);
+  //await page.waitForTimeout(500);
+
   page.once('dialog', (dialog: Dialog) => {
     console.log(`Dialog message: ${dialog.message()}`);
     dialog.accept().catch(() => {});
@@ -106,8 +110,20 @@ Then('o filme deve aparecer na lista com:', async function(dataTable: DataTable)
   await page.screenshot({ path: 'debug-filme-lista.png' });
   console.log(`[DEBUG] Screenshot salvo em: debug-filme-lista.png`);
   
-  const rowLocator = page.locator('tbody#tabela-filmes-lista tr', { hasText: rowName }).first();
-  await expect(rowLocator).toBeVisible({ timeout: 10000 });
+  const rowLocator = page.locator(
+  'tbody#tabela-filmes-lista tr',
+  { hasText: rowName }
+).first();
+
+
+// valida que o filme apareceu na lista
+await expect(rowLocator).toBeVisible({ timeout: 10000 });
+
+
+// valida status se informado no Gherkin
+if (dados['status']) {
+  await expect(rowLocator).toContainText(dados['status']);
+}
 
   // ===== EXTRAIR O ID DO FILME PELA LINHA ENCONTRADA =====
   const filmeId = await rowLocator.first().evaluate((element: any) => element.id);

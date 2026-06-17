@@ -14,7 +14,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 1395730999
+              "duration": 1003150999
             }
           },
           {
@@ -27,7 +27,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 6339887700
+              "duration": 6366923100
             }
           },
           {
@@ -40,7 +40,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 1071755800
+              "duration": 1059411300
             }
           },
           {
@@ -88,7 +88,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 4285914799
+              "duration": 4274049799
             }
           },
           {
@@ -124,6 +124,12 @@
                       "diretor",
                       "John Hughes"
                     ]
+                  },
+                  {
+                    "cells": [
+                      "status",
+                      "Liberado"
+                    ]
                   }
                 ]
               }
@@ -132,24 +138,24 @@
             "line": 17,
             "name": "o filme deve aparecer na lista com:",
             "match": {
-              "location": "features\\step_definitions\\filme.steps.ts:94"
+              "location": "features\\step_definitions\\filme.steps.ts:98"
             },
             "result": {
               "status": "passed",
-              "duration": 3113469999
+              "duration": 3110323599
             }
           },
           {
             "arguments": [],
             "keyword": "E ",
-            "line": 23,
+            "line": 24,
             "name": "saio da aplicação",
             "match": {
-              "location": "features\\step_definitions\\filme.steps.ts:165"
+              "location": "features\\step_definitions\\filme.steps.ts:181"
             },
             "result": {
               "status": "passed",
-              "duration": 2078790999
+              "duration": 2046993099
             }
           },
           {
@@ -157,7 +163,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 507780800
+              "duration": 533040999
             }
           }
         ],

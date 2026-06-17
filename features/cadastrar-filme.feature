@@ -20,4 +20,5 @@ Funcionalidade: Cadastro de Filmes
       | ano     | 1986         |
       | gênero  | Romance      |
       | diretor | John Hughes  |
+      | status  | Liberado           |
     E saio da aplicação
