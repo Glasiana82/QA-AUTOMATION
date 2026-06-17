@@ -148,35 +148,45 @@ When('vou para a lista de filmes', async function() {
 
 Then('posso deletar o filme da lista', async function() {
   const page = this.page;
-  page.once('dialog', (dialog: Dialog) => dialog.accept());
 
-  const rowName = (this as any).lastMovie;
-  if (!rowName) {
-    throw new Error('lastMovie não definido — certifique-se que o filme foi cadastrado anteriormente');
+  page.once('dialog', (dialog: Dialog) => {
+    dialog.accept();
+  });
+
+  const filmeId = (this as any).filmeId;
+
+  if (!filmeId) {
+    throw new Error('filmeId não definido — certifique-se que o filme foi encontrado antes');
   }
 
-  const row = page.locator('tbody#tabela-filmes-lista tr', { hasText: rowName }).first();
+  console.log(`🗑️ Deletando filme com ID: ${filmeId}`);
+
+  // Localiza a linha pelo ID
+  const row = page.locator(`#${filmeId}`);
+
   await expect(row).toBeVisible();
 
-  // Scrollar para a linha do filme
-  await row.scrollIntoViewIfNeeded();
-  await page.waitForTimeout(500);
-
-  // Esperar que o botão DELETAR fique visível e clicável
+  // Garante que o botão está disponível
   const deleteButton = row.locator('button', { hasText: 'DELETAR' });
-  await deleteButton.waitFor({ state: 'visible', timeout: 10000 });
-  await page.waitForTimeout(300);
 
-  // Clicar no botão DELETAR
+  await deleteButton.waitFor({
+    state: 'visible',
+    timeout: 10000
+  });
+
   await deleteButton.click();
+
   await page.waitForTimeout(1000);
 
-  // Verificar que o filme foi deletado (não aparece mais na lista)
-  const rowAfterDelete = page.locator('tbody#tabela-filmes-lista tr', { hasText: rowName }).first();
-  await expect(rowAfterDelete).not.toBeVisible({ timeout: 5000 });
-  
-  console.log(`[SUCCESS] Filme "${rowName}" foi deletado com sucesso!`);
+
+  // valida que sumiu
+  await expect(row).not.toBeVisible({
+    timeout: 5000
+  });
+
+  console.log(`✅ Filme ${filmeId} deletado com sucesso!`);
 });
+  
 
 Then('saio da aplicação', async function(this: any) {
   const page = this.page;

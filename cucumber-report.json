@@ -4,17 +4,17 @@
     "elements": [
       {
         "description": "",
-        "id": "cadastro-de-filmes;fazer-login-e-cadastrar-um-filme-com-sucesso",
+        "id": "cadastro-e-aluguel-de-filmes;fazer-login-e-cadastrar-e-alugar-um-filme-com-sucesso",
         "keyword": "Cenário",
         "line": 8,
-        "name": "Fazer login e cadastrar um filme com sucesso",
+        "name": "Fazer login e cadastrar e alugar um filme com sucesso",
         "steps": [
           {
             "keyword": "Before",
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 1310323499
+              "duration": 1081938299
             }
           },
           {
@@ -27,7 +27,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 6203480199
+              "duration": 6219241299
             }
           },
           {
@@ -40,7 +40,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 1056607300
+              "duration": 1072684900
             }
           },
           {
@@ -88,7 +88,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 4277027199
+              "duration": 4317605999
             }
           },
           {
@@ -142,20 +142,56 @@
             },
             "result": {
               "status": "passed",
-              "duration": 3111554400
+              "duration": 3114521800
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Quando ",
+            "line": 25,
+            "name": "alugo o filme \"A Busca pela Vida\"",
+            "match": {
+              "location": "features\\step_definitions\\aluguel.steps.ts:6"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 8065212899
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Então ",
+            "line": 27,
+            "name": "deve aparecer a confirmação de aluguel",
+            "match": {
+              "location": "features\\step_definitions\\aluguel.steps.ts:44"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1167400
             }
           },
           {
             "arguments": [],
             "keyword": "E ",
-            "line": 24,
-            "name": "saio da aplicação",
+            "line": 29,
+            "name": "o status do filme \"A Busca pela Vida\" deve ser \"Alugado\"",
             "match": {
-              "location": "features\\step_definitions\\filme.steps.ts:181"
+              "location": "features\\step_definitions\\aluguel.steps.ts:54"
             },
             "result": {
               "status": "passed",
-              "duration": 2063182300
+              "duration": 6209599
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "E ",
+            "line": 31,
+            "name": "saio da aplicação",
+            "result": {
+              "status": "ambiguous",
+              "duration": 0
             }
           },
           {
@@ -163,7 +199,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 420254000
+              "duration": 513512699
             }
           }
         ],
@@ -171,11 +207,11 @@
         "type": "scenario"
       }
     ],
-    "id": "cadastro-de-filmes",
+    "id": "cadastro-e-aluguel-de-filmes",
     "line": 2,
     "keyword": "Funcionalidade",
-    "name": "Cadastro de Filmes",
+    "name": "Cadastro e Aluguel de Filmes",
     "tags": [],
-    "uri": "features\\cadastrar-filme.feature"
+    "uri": "features\\alugar-filme.feature"
   }
 ]
